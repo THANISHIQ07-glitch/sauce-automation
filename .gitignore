@@ -1,0 +1,10 @@
+target/
+.classpath
+.project
+.settings/
+.idea/
+*.class
+*.log
+test-output/
+reports/
+config.properties
