@@ -19,25 +19,10 @@ public class CartSteps extends Base {
     LoginPage loginPage;
     CartPage cartPage;
     
-    @Given("user is logged in successfully")
-    public void user_is_logged_in_successfully() {
-
-        loginPage = new LoginPage(getDriver());
-
-        loginPage.userNameField(getProperty("app.username"));
-        loginPage.passwordField(getProperty("app.password"));
-        loginPage.loginButton();
-        cartPage=new CartPage(getDriver());
-    }
-
     @When("user opens the cart")
     public void user_opens_the_cart() {
+    	cartPage = new CartPage(getDriver());
         cartPage.clickShoppingCart();
-    }
-
-    @When("user adds backpack to cart")
-    public void user_adds_backpack_to_cart() {
-    	cartPage.addBackpack();
     }
     
     @Then("cart should contain one product")
@@ -58,12 +43,6 @@ public class CartSteps extends Base {
         Assert.assertEquals(cartPage.getProductPrice(),expectedPrice);
     }
 
-    @When("user removes the backpack")
-    public void user_removes_the_backpack() {
-	    WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        cartPage.removeBackpack();
-    }
-
     @Then("cart should be empty")
     public void cart_should_be_empty() {
 
@@ -77,11 +56,13 @@ public class CartSteps extends Base {
     }
 
     @Then("checkout page should be displayed")
-    public void checkout_page_should_be_displayed() {
-
-        Assert.assertTrue(
-                getDriver().getCurrentUrl().contains("checkout-step-one.html"),
-                "Checkout page is not displayed"
-        );
+    public void checkout_page_should_be_displayed() throws InterruptedException {
+    	
+        Assert.assertTrue( getDriver().getCurrentUrl().contains("checkout-step-one.html"),"Checkout page is not displayed");
+    }
+    
+    @Then("user removes the backpack")
+    public void user_removes_the_backpack() {
+    	cartPage.removeBackpack();
     }
 }

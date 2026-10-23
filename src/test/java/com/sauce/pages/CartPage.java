@@ -1,5 +1,6 @@
 package com.sauce.pages;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -7,10 +8,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CartPage {
 
     WebDriver driver;
+    WebDriverWait wait;
     
     @FindBy(className = "shopping_cart_link")
     WebElement shppingCart;
@@ -36,6 +40,7 @@ public class CartPage {
     public CartPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
     
     public void clickShoppingCart() {
@@ -59,10 +64,10 @@ public class CartPage {
     }
 
     public void removeBackpack() {
-        removeBackpack.click();
+        wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(removeBackpack))).click();
     }
 
     public void clickCheckout() {
-        checkout.click();
+        wait.until(ExpectedConditions.elementToBeClickable(checkout)).click();
     }
 }
