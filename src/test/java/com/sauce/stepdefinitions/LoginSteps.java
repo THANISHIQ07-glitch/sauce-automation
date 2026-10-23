@@ -40,7 +40,7 @@ public class LoginSteps extends Base {
 	
 	@Then("user should see login error message")
 	public void user_should_see_login_error_message() {
-	  Assert.assertEquals("Epic sadface: Sorry, this user has been locked out.", page.errormessge());
+	  Assert.assertEquals(page.errormessge(), "Epic sadface: Sorry, this user has been locked out.");
 	}
 	
 	@When("login with locker user")
@@ -83,12 +83,6 @@ public class LoginSteps extends Base {
 	        page.userNameField(username);
 	        page.passwordField(password);
 	        page.loginButton();
-
-	        if (getDriver().getCurrentUrl().contains("inventory.html")) {
-	            System.out.println("Login successful: " + username);
-	        } else {
-	            System.out.println("Login rejected: " + username);
-	        }
 	    }
 	}
 }

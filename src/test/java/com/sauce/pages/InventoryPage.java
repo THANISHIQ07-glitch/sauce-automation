@@ -1,15 +1,19 @@
 package com.sauce.pages;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class InventoryPage {
 
     WebDriver driver;
+   WebDriverWait wait;
 
     @FindBy(className = "title")
     WebElement pageTitle;
@@ -28,7 +32,13 @@ public class InventoryPage {
 
     public InventoryPage(WebDriver driver) {
         this.driver = driver;
+        this.wait=new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
+    }
+    
+    public void waitForPageLoad() {
+        wait.until(ExpectedConditions.urlContains("inventory.html"));
+        wait.until(ExpectedConditions.visibilityOf(pageTitle));
     }
 
     public String getPageTitle() {
@@ -40,11 +50,11 @@ public class InventoryPage {
     }
 
     public void addBackpack() {
-        backpack.click();
+       wait.until(ExpectedConditions.elementToBeClickable(backpack)).click();
     }
 
     public void removeBackpack() {
-        removeBackpack.click();
+        wait.until(ExpectedConditions.elementToBeClickable(removeBackpack)).click();
     }
 
     public String getCartCount() {

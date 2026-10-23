@@ -25,6 +25,7 @@ public class InventorySteps extends Base {
         loginPage.loginButton();
 
         inventoryPage = new InventoryPage(getDriver());
+        inventoryPage.waitForPageLoad();
     }
 
     @Then("inventory page should be displayed")

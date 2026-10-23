@@ -10,51 +10,52 @@ import com.sauce.pages.CartPage;
 import com.sauce.pages.InventoryPage;
 import com.sauce.pages.LoginPage;
 
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class CartSteps extends Base {
 
     LoginPage loginPage;
-    InventoryPage inventoryPage;
     CartPage cartPage;
+    
+    @Given("user is logged in successfully")
+    public void user_is_logged_in_successfully() {
+
+        loginPage = new LoginPage(getDriver());
+
+        loginPage.userNameField(getProperty("app.username"));
+        loginPage.passwordField(getProperty("app.password"));
+        loginPage.loginButton();
+        cartPage=new CartPage(getDriver());
+    }
 
     @When("user opens the cart")
     public void user_opens_the_cart() {
-
-        getDriver().findElement(
-                org.openqa.selenium.By.className("shopping_cart_link")
-        ).click();
-
-        cartPage = new CartPage(getDriver());
+        cartPage.clickShoppingCart();
     }
 
+    @When("user adds backpack to cart")
+    public void user_adds_backpack_to_cart() {
+    	cartPage.addBackpack();
+    }
+    
     @Then("cart should contain one product")
     public void cart_should_contain_one_product() {
 
-        Assert.assertEquals(
-                cartPage.getCartItemCount(),
-                1,
-                "Cart should contain one product"
-        );
+        Assert.assertEquals(cartPage.getCartItemCount(), 1,"Cart should contain one product");
     }
 
     @Then("product name should be {string}")
     public void product_name_should_be(String expectedName) {
 
-        Assert.assertEquals(
-                cartPage.getProductName(),
-                expectedName
-        );
+        Assert.assertEquals(cartPage.getProductName(),expectedName);
     }
 
     @Then("product price should be {string}")
     public void product_price_should_be(String expectedPrice) {
 
-        Assert.assertEquals(
-                cartPage.getProductPrice(),
-                expectedPrice
-        );
+        Assert.assertEquals(cartPage.getProductPrice(),expectedPrice);
     }
 
     @When("user removes the backpack")
@@ -66,11 +67,7 @@ public class CartSteps extends Base {
     @Then("cart should be empty")
     public void cart_should_be_empty() {
 
-        Assert.assertEquals(
-                cartPage.getCartItemCount(),
-                0,
-                "Cart is not empty"
-        );
+        Assert.assertEquals( cartPage.getCartItemCount(), 0, "Cart is not empty");
     }
 
     @When("user proceeds to checkout")

@@ -44,17 +44,9 @@ public class CheckoutSteps extends Base {
         checkoutPage.clickFinish();
     }
 
-    public String getCompleteMessage() {
-
-        System.out.println("Current URL: " + getDriver().getCurrentUrl());
-
-        System.out.println("Page title: " + getDriver().getTitle());
-
-        System.out.println(
-            "Complete header count: " +
-            getDriver().findElements(By.className("complete-header")).size()
-        );
-
-        return getDriver().findElement(By.className("complete-header")).getText();
-    }
+   @Then("order confirmation should be displayed")
+	   public void order_confirmation_should_be_displayed(){
+	   Assert.assertEquals(checkoutPage.getCompleteMessage(), "Thank you for your order!");
+   }
+   
   }
