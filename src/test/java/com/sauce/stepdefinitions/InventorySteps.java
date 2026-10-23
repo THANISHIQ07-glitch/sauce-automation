@@ -18,20 +18,20 @@ public class InventorySteps extends Base {
     @Given("user is logged in successfully")
     public void user_is_logged_in_successfully() {
 
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage(getDriver());
 
-        loginPage.userNameField(prop.getProperty("app.username"));
-        loginPage.passwordField(prop.getProperty("app.password"));
+        loginPage.userNameField(getProperty("app.username"));
+        loginPage.passwordField(getProperty("app.password"));
         loginPage.loginButton();
 
-        inventoryPage = new InventoryPage(driver);
+        inventoryPage = new InventoryPage(getDriver());
     }
 
     @Then("inventory page should be displayed")
     public void inventory_page_should_be_displayed() {
 
         Assert.assertTrue(
-            driver.getCurrentUrl().contains("inventory.html"),
+            getDriver().getCurrentUrl().contains("inventory.html"),
             "Inventory page is not displayed"
         );
     }
@@ -68,7 +68,7 @@ public class InventorySteps extends Base {
     public void cart_badge_should_not_be_displayed() {
 
         Assert.assertTrue(
-            driver.findElements(
+            getDriver().findElements(
                 org.openqa.selenium.By.className("shopping_cart_badge")
             ).isEmpty(),
             "Cart badge is still displayed"

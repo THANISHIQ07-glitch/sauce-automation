@@ -1,6 +1,4 @@
 package com.sauce.hooks;
-import java.io.IOException;
-
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -18,28 +16,32 @@ public class Hooks extends Base {
 		setup();
 		try {
 			ExcelUtils.openExcel(System.getProperty("user.dir") + "/src/test/resources/TestData/TestData.xlsx", "Sheet1");
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			quitDriver();
+			throw new IllegalStateException("Could not open the scenario test data workbook.", e);
 		}
 	}
 	
     @After
-    public void browserteardown(Scenario scenario) throws IOException {
-
-        if (scenario.isFailed()) {
-            byte[] screenshot =
-                    ((TakesScreenshot) driver)
-                    .getScreenshotAs(OutputType.BYTES);
-
-            scenario.attach(
-                    screenshot,
-                    "image/png",
-                    scenario.getName()
-            );
+    public void browserteardown(Scenario scenario) {
+        try {
+            if (scenario.isFailed()) {
+                try {
+                    scenario.attach(((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES),
+                            "image/png", scenario.getName());
+                } catch (RuntimeException screenshotFailure) {
+                    System.err.println("Could not capture failure screenshot: " + screenshotFailure.getMessage());
+                }
+            }
+        } finally {
+            try {
+                ExcelUtils.closeExcel();
+            } catch (Exception closeFailure) {
+                System.err.println("Could not close test data workbook: " + closeFailure.getMessage());
+            } finally {
+                quitDriver();
+            }
         }
-
-        ExcelUtils.closeExcel();
-        tearDown();
     }
 
 }

@@ -20,7 +20,7 @@ public class CheckoutSteps extends Base {
     @When("user enters checkout details")
     public void user_enters_checkout_details() {
 
-        checkoutPage = new CheckoutPage(driver);
+        checkoutPage = new CheckoutPage(getDriver());
 
         checkoutPage.enterFirstName("Thanish");
         checkoutPage.enterLastName("Tester");
@@ -33,7 +33,7 @@ public class CheckoutSteps extends Base {
         checkoutPage.clickContinue();
 
         Assert.assertTrue(
-                driver.getCurrentUrl().contains("checkout-step-two.html"),
+                getDriver().getCurrentUrl().contains("checkout-step-two.html"),
                 "Checkout overview page is not displayed"
         );
     }
@@ -46,15 +46,15 @@ public class CheckoutSteps extends Base {
 
     public String getCompleteMessage() {
 
-        System.out.println("Current URL: " + driver.getCurrentUrl());
+        System.out.println("Current URL: " + getDriver().getCurrentUrl());
 
-        System.out.println("Page title: " + driver.getTitle());
+        System.out.println("Page title: " + getDriver().getTitle());
 
         System.out.println(
             "Complete header count: " +
-            driver.findElements(By.className("complete-header")).size()
+            getDriver().findElements(By.className("complete-header")).size()
         );
 
-        return driver.findElement(By.className("complete-header")).getText();
+        return getDriver().findElement(By.className("complete-header")).getText();
     }
   }

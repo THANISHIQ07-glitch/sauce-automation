@@ -7,4 +7,3 @@ target/
 *.log
 test-output/
 reports/
-config.properties

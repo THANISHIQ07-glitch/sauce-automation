@@ -22,11 +22,11 @@ public class CartSteps extends Base {
     @When("user opens the cart")
     public void user_opens_the_cart() {
 
-        driver.findElement(
+        getDriver().findElement(
                 org.openqa.selenium.By.className("shopping_cart_link")
         ).click();
 
-        cartPage = new CartPage(driver);
+        cartPage = new CartPage(getDriver());
     }
 
     @Then("cart should contain one product")
@@ -59,7 +59,7 @@ public class CartSteps extends Base {
 
     @When("user removes the backpack")
     public void user_removes_the_backpack() {
-    	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	    WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         cartPage.removeBackpack();
     }
 
@@ -83,7 +83,7 @@ public class CartSteps extends Base {
     public void checkout_page_should_be_displayed() {
 
         Assert.assertTrue(
-                driver.getCurrentUrl().contains("checkout-step-one.html"),
+                getDriver().getCurrentUrl().contains("checkout-step-one.html"),
                 "Checkout page is not displayed"
         );
     }
